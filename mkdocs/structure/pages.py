@@ -526,8 +526,11 @@ class _RawHTMLPreprocessor(markdown.preprocessors.Preprocessor):
 
     def run(self, lines: list[str]) -> list[str]:
         parser = _HTMLHandler()
-        parser.feed('\n'.join(lines))
-        parser.close()
+        try:
+            parser.feed('\n'.join(lines))
+            parser.close()
+        except AssertionError:
+            pass
         self.present_anchor_ids = parser.present_anchor_ids
         return lines
 
